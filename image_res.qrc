@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/image">
+        <file alias="Scheme_1.png">images/Scheme_1.png</file>
+        <file alias="Scheme_2.png">images/Scheme_2.png</file>
+    </qresource>
+</RCC>
