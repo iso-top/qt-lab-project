@@ -42,7 +42,7 @@ private slots:
     void on_sq13_clicked();
     void on_sq14_clicked();
     void on_sq15_clicked();
-
+    void on_comboTetrads_currentIndexChanged(int index);
 private:
     Ui::MainWindow *ui;
 
@@ -59,6 +59,8 @@ private:
     void clearRightMode();
     void enableRightMode();
     void clearLeftMode();
+
+    void updateErrorCombo();
 
     void applyButtonStyles();
     void updateConstButtonsState();

@@ -2,6 +2,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
+#include <QFont>
 #include <QPixmap>
 #include <QPushButton>
 #include <QMessageBox>
@@ -10,7 +12,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
+
+    updateErrorCombo();
 
     applyButtonStyles();
     initSquares();
@@ -50,6 +55,62 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/*
+ =========================================================
+  Эта функция отвечает за формирование списка
+  в поле "Ошибка в тетраде №"
+ =========================================================
+*/
+void MainWindow::updateErrorCombo()
+{
+    /*
+      Получаем количество тетрад из комбобокса
+      "Количество значащих тетрад"
+    */
+    int count = ui->comboTetrads->currentText().toInt();
+
+    /*
+      Очищаем старые значения
+    */
+    ui->comboError->clear();
+
+    /*
+      Первый пункт всегда "Нет"
+    */
+    ui->comboError->addItem("Нет");
+
+    /*
+      Добавляем номера тетрад
+      от 0 до count-1
+    */
+    for (int i = 0; i < count; i++)
+    {
+        ui->comboError->addItem(QString::number(i));
+    }
+
+    /*
+      Последний пункт — "Знак"
+    */
+    ui->comboError->addItem("Знак");
+}
+
+
+/*
+ =========================================================
+  Этот слот связан с комбобоксом
+  "Количество значащих тетрад"
+
+  Когда пользователь меняет значение,
+  мы пересчитываем список ошибок.
+ =========================================================
+*/
+void MainWindow::on_comboTetrads_currentIndexChanged(int index)
+{
+    Q_UNUSED(index);
+
+    updateErrorCombo();
+}
+//Переключение схемы в зависимости от варианта
 void MainWindow::updateScheme(int index)
 {
     QString path;
@@ -71,20 +132,22 @@ void MainWindow::updateScheme(int index)
     }
 }
 
+//функция что обновляет вариант в зависимости от индекс переменной
 void MainWindow::on_VariantBtn_currentIndexChanged(int index)
 {
     updateScheme(index);
 }
 
+
 void MainWindow::applyButtonStyles()
 {
     QString modeStyle =
         "QPushButton { background: lightgray; border:1px solid black; }"
-        "QPushButton:checked { background: rgb(100,180,255); }";
+        "QPushButton:checked { background: rgb(120,255,120); }";
 
     QString errorStyle =
         "QPushButton { background: lightgray; border:1px solid black; }"
-        "QPushButton:checked { background: rgb(255,120,120); }";
+        "QPushButton:checked { background: rgb(120,255,120); }";
 
     QString constStyle =
         "QPushButton { background: lightgray; border:1px solid black; }"
@@ -100,20 +163,32 @@ void MainWindow::applyButtonStyles()
     ui->btnConst0->setStyleSheet(constStyle);
     ui->btnConst1->setStyleSheet(constStyle);
 }
+
+//подсказка что вылазит когда нажимаешь на кнопку "?"
 void MainWindow::on_HelpBtn_clicked()
 {
-    QMessageBox::information(
-        this,
-        "О программе",
+    QMessageBox msg;
+
+    msg.setWindowTitle("О программе");
+
+    msg.setText(
         "Программа предназначена для моделирования работы схемы.\n\n"
         "Функции:\n"
         "- выбор варианта схемы;\n"
         "- выбор режима работы;\n"
         "- выбор состояния элементов;\n"
         "- отображение активного узла на схеме.\n\n"
-        "Разработчик: [Твоё имя]\n"
-        "Группа: [Твоя группа]"
+        "Разработчик: Твоё имя\n"
+        "Группа: Твоя группа"
     );
+
+    QFont font;
+    font.setPointSize(14);   // размер текста
+    msg.setFont(font);
+
+    msg.setMinimumWidth(500); // ширина окна
+
+    msg.exec();
 }
 void MainWindow::updateConstButtonsState()
 {
@@ -187,7 +262,7 @@ void MainWindow::initSquares()
     };
 
     for (auto b : squares)
-        setSquareColor(b, "green");
+        setSquareColor(b, "rgb(120,255,120)");
 }
 
 void MainWindow::setSquareColor(QPushButton *button, const QString &color)
@@ -201,18 +276,19 @@ void MainWindow::selectSquare(int index)
         return;
 
     if (activeSquare == index) {
-        setSquareColor(squares[index], "green");
+        setSquareColor(squares[index], "rgb(120,255,120)");
         activeSquare = -1;
         return;
     }
 
     if (activeSquare != -1)
-        setSquareColor(squares[activeSquare], "green");
+        setSquareColor(squares[activeSquare], "rgb(120,255,120)");
 
     setSquareColor(squares[index], "red");
     activeSquare = index;
 }
 
+//объвление квадратиков для первого варианта
 void MainWindow::on_sq1_clicked()  { selectSquare(0); }
 void MainWindow::on_sq2_clicked()  { selectSquare(1); }
 void MainWindow::on_sq3_clicked()  { selectSquare(2); }

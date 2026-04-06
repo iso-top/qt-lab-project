@@ -43,7 +43,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QComboBox" name="comboBox_2">
+   <widget class="QComboBox" name="comboTetrads">
     <property name="geometry">
      <rect>
       <x>910</x>
@@ -146,7 +146,7 @@
      <string>Принять</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_3">
+   <widget class="QComboBox" name="comboError">
     <property name="geometry">
      <rect>
       <x>1620</x>
@@ -253,7 +253,6 @@
     </property>
     <property name="font">
      <font>
-      <weight>50</weight>
       <bold>false</bold>
       <underline>false</underline>
      </font>
@@ -279,7 +278,6 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
-       <weight>50</weight>
        <bold>false</bold>
        <underline>false</underline>
       </font>
@@ -315,7 +313,6 @@
       <property name="font">
        <font>
         <pointsize>20</pointsize>
-        <weight>50</weight>
         <bold>false</bold>
         <underline>false</underline>
        </font>
@@ -368,7 +365,6 @@
       <property name="font">
        <font>
         <pointsize>20</pointsize>
-        <weight>50</weight>
         <bold>false</bold>
         <underline>false</underline>
        </font>
@@ -389,7 +385,6 @@
       <property name="font">
        <font>
         <pointsize>14</pointsize>
-        <weight>50</weight>
         <bold>false</bold>
         <underline>false</underline>
        </font>
@@ -410,7 +405,6 @@
       <property name="font">
        <font>
         <pointsize>14</pointsize>
-        <weight>50</weight>
         <bold>false</bold>
         <underline>false</underline>
        </font>
@@ -727,15 +721,14 @@
     <property name="font">
      <font>
       <pointsize>8</pointsize>
-      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
+     <enum>QFrame::Shadow::Plain</enum>
     </property>
     <property name="orientation">
-     <enum>Qt::Horizontal</enum>
+     <enum>Qt::Orientation::Horizontal</enum>
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox_7">
@@ -774,7 +767,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>:/image/Scheme_1.png</pixmap>
+      <pixmap resource="image_res.qrc">:/image/Scheme_1.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -1040,11 +1033,11 @@
    <zorder>groupBox_7</zorder>
    <zorder>groupBox</zorder>
    <zorder>VariantBtn</zorder>
-   <zorder>comboBox_2</zorder>
+   <zorder>comboTetrads</zorder>
    <zorder>label_2</zorder>
    <zorder>HelpBtn</zorder>
    <zorder>ApplyBtn2</zorder>
-   <zorder>comboBox_3</zorder>
+   <zorder>comboError</zorder>
    <zorder>label_3</zorder>
    <zorder>ApplyBtn</zorder>
    <zorder>groupBox_3</zorder>
@@ -1063,6 +1056,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="image_res.qrc"/>
+ </resources>
  <connections/>
 </ui>
