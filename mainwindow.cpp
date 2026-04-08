@@ -2,7 +2,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
+#include <QIntValidator>
+#include <cmath>
 #include <QFont>
 #include <QPixmap>
 #include <QPushButton>
@@ -14,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
 
     ui->setupUi(this);
-
+    updateNumberLimits();
     updateErrorCombo();
 
     applyButtonStyles();
@@ -109,6 +110,7 @@ void MainWindow::on_comboTetrads_currentIndexChanged(int index)
     Q_UNUSED(index);
 
     updateErrorCombo();
+    updateNumberLimits(); // новая функция ограничения
 }
 //Переключение схемы в зависимости от варианта
 void MainWindow::updateScheme(int index)
@@ -239,7 +241,21 @@ void MainWindow::on_btnPair_clicked()
         ui->btnCarry->setEnabled(false);
     }
 }
+void MainWindow::updateNumberLimits()
+{
+    // сколько тетрад выбрано
+    int tetrads = ui->comboTetrads->currentText().toInt();
 
+    // считаем максимум
+    int maxValue = pow(10, tetrads) - 1;
+
+    // создаём валидатор
+    QIntValidator *validator = new QIntValidator(-maxValue, maxValue, this);
+
+    // применяем к полям A и B
+    ui->btnA->setValidator(validator);
+    ui->btnB->setValidator(validator);
+}
 void MainWindow::initSquares()
 {
     squares = {
@@ -286,6 +302,7 @@ void MainWindow::selectSquare(int index)
     setSquareColor(squares[index], "red");
     activeSquare = index;
 }
+
 
 //объвление квадратиков для первого варианта
 void MainWindow::on_sq1_clicked()  { selectSquare(0); }

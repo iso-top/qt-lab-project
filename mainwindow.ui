@@ -296,10 +296,10 @@
     <widget class="QGroupBox" name="groupBox_2">
      <property name="geometry">
       <rect>
-       <x>150</x>
-       <y>40</y>
-       <width>141</width>
-       <height>71</height>
+       <x>80</x>
+       <y>50</y>
+       <width>211</width>
+       <height>51</height>
       </rect>
      </property>
      <property name="autoFillBackground">
@@ -312,7 +312,7 @@
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>20</y>
+        <y>5</y>
         <width>51</width>
         <height>31</height>
        </rect>
@@ -332,8 +332,8 @@
      <widget class="QPushButton" name="btnFail">
       <property name="geometry">
        <rect>
-        <x>100</x>
-        <y>20</y>
+        <x>162</x>
+        <y>8</y>
         <width>31</width>
         <height>31</height>
        </rect>
@@ -349,9 +349,9 @@
     <widget class="QGroupBox" name="groupBox_6">
      <property name="geometry">
       <rect>
-       <x>470</x>
+       <x>370</x>
        <y>10</y>
-       <width>491</width>
+       <width>591</width>
        <height>111</height>
       </rect>
      </property>
@@ -365,7 +365,7 @@
       <property name="geometry">
        <rect>
         <x>40</x>
-        <y>30</y>
+        <y>34</y>
         <width>51</width>
         <height>31</height>
        </rect>
@@ -406,7 +406,7 @@
      <widget class="QLabel" name="label_13">
       <property name="geometry">
        <rect>
-        <x>290</x>
+        <x>300</x>
         <y>70</y>
         <width>111</width>
         <height>21</height>
@@ -428,7 +428,7 @@
       <property name="geometry">
        <rect>
         <x>110</x>
-        <y>30</y>
+        <y>36</y>
         <width>31</width>
         <height>31</height>
        </rect>
@@ -443,8 +443,8 @@
      <widget class="QPushButton" name="btnConst1">
       <property name="geometry">
        <rect>
-        <x>420</x>
-        <y>70</y>
+        <x>430</x>
+        <y>66</y>
         <width>31</width>
         <height>31</height>
        </rect>
@@ -460,7 +460,7 @@
       <property name="geometry">
        <rect>
         <x>430</x>
-        <y>10</y>
+        <y>16</y>
         <width>31</width>
         <height>31</height>
        </rect>
@@ -628,6 +628,11 @@
         <height>28</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string/>
       </property>
@@ -640,6 +645,11 @@
         <width>171</width>
         <height>28</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
       </property>
       <property name="text">
        <string/>

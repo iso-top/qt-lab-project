@@ -43,8 +43,11 @@ private slots:
     void on_sq14_clicked();
     void on_sq15_clicked();
     void on_comboTetrads_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
+
+    void updateNumberLimits();
 
     QVector<QPushButton*> squares;
     int activeSquare = -1;
