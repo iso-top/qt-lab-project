@@ -141,8 +141,8 @@
    <widget class="QPushButton" name="ApplyBtn2">
     <property name="geometry">
      <rect>
-      <x>1700</x>
-      <y>980</y>
+      <x>1630</x>
+      <y>930</y>
       <width>171</width>
       <height>51</height>
      </rect>
@@ -214,7 +214,7 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>1160</x>
+      <x>1170</x>
       <y>150</y>
       <width>191</width>
       <height>51</height>
@@ -232,16 +232,14 @@
    <widget class="QPushButton" name="ApplyBtn">
     <property name="geometry">
      <rect>
-      <x>1740</x>
-      <y>280</y>
+      <x>1630</x>
+      <y>270</y>
       <width>171</width>
       <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QCheckBox::indicator:checked {
-    background: black;
-}</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Принять</string>
@@ -258,7 +256,6 @@
     </property>
     <property name="font">
      <font>
-      <weight>50</weight>
       <bold>false</bold>
       <underline>false</underline>
      </font>
@@ -284,7 +281,6 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
-       <weight>50</weight>
        <bold>false</bold>
        <underline>false</underline>
       </font>
@@ -320,7 +316,6 @@
       <property name="font">
        <font>
         <pointsize>14</pointsize>
-        <weight>50</weight>
         <bold>false</bold>
         <underline>false</underline>
        </font>
@@ -373,7 +368,6 @@
       <property name="font">
        <font>
         <pointsize>14</pointsize>
-        <weight>50</weight>
         <bold>false</bold>
         <underline>false</underline>
        </font>
@@ -394,7 +388,6 @@
       <property name="font">
        <font>
         <pointsize>14</pointsize>
-        <weight>50</weight>
         <bold>false</bold>
         <underline>false</underline>
        </font>
@@ -415,7 +408,6 @@
       <property name="font">
        <font>
         <pointsize>14</pointsize>
-        <weight>50</weight>
         <bold>false</bold>
         <underline>false</underline>
        </font>
@@ -733,7 +725,7 @@
    <widget class="Line" name="line">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>-10</x>
       <y>340</y>
       <width>1931</width>
       <height>4</height>
@@ -742,302 +734,15 @@
     <property name="font">
      <font>
       <pointsize>8</pointsize>
-      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
+     <enum>QFrame::Shadow::Plain</enum>
     </property>
     <property name="orientation">
-     <enum>Qt::Horizontal</enum>
+     <enum>Qt::Orientation::Horizontal</enum>
     </property>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_7">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>360</y>
-      <width>1361</width>
-      <height>671</height>
-     </rect>
-    </property>
-    <property name="acceptDrops">
-     <bool>false</bool>
-    </property>
-    <property name="title">
-     <string/>
-    </property>
-    <widget class="QLabel" name="schemeLabel">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>1361</width>
-       <height>661</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>8</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="image_res.qrc">:/image/Scheme_1.png</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq1">
-     <property name="geometry">
-      <rect>
-       <x>260</x>
-       <y>100</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq2">
-     <property name="geometry">
-      <rect>
-       <x>260</x>
-       <y>140</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq3">
-     <property name="geometry">
-      <rect>
-       <x>510</x>
-       <y>100</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq4">
-     <property name="geometry">
-      <rect>
-       <x>510</x>
-       <y>140</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq5">
-     <property name="geometry">
-      <rect>
-       <x>750</x>
-       <y>100</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq6">
-     <property name="geometry">
-      <rect>
-       <x>750</x>
-       <y>140</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq7">
-     <property name="geometry">
-      <rect>
-       <x>1000</x>
-       <y>100</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq8">
-     <property name="geometry">
-      <rect>
-       <x>1000</x>
-       <y>140</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq10">
-     <property name="geometry">
-      <rect>
-       <x>700</x>
-       <y>510</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq11">
-     <property name="geometry">
-      <rect>
-       <x>700</x>
-       <y>560</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq13">
-     <property name="geometry">
-      <rect>
-       <x>950</x>
-       <y>530</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq12">
-     <property name="geometry">
-      <rect>
-       <x>950</x>
-       <y>490</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq14">
-     <property name="geometry">
-      <rect>
-       <x>1170</x>
-       <y>510</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq15">
-     <property name="geometry">
-      <rect>
-       <x>1160</x>
-       <y>570</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="sq9">
-     <property name="geometry">
-      <rect>
-       <x>920</x>
-       <y>440</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: green;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -1052,7 +757,6 @@
      <font>
       <family>MS Shell Dlg 2</family>
       <pointsize>14</pointsize>
-      <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
      </font>
@@ -1064,7 +768,276 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Вариант СДДК&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <zorder>groupBox_7</zorder>
+   <widget class="QLabel" name="schemeLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>350</y>
+      <width>1441</width>
+      <height>631</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="image_res.qrc">:/image/Scheme_1.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq15">
+    <property name="geometry">
+     <rect>
+      <x>1153</x>
+      <y>850</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq14">
+    <property name="geometry">
+     <rect>
+      <x>1153</x>
+      <y>810</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq12">
+    <property name="geometry">
+     <rect>
+      <x>1002</x>
+      <y>792</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq13">
+    <property name="geometry">
+     <rect>
+      <x>1003</x>
+      <y>831</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq9">
+    <property name="geometry">
+     <rect>
+      <x>983</x>
+      <y>759</y>
+      <width>21</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq10">
+    <property name="geometry">
+     <rect>
+      <x>832</x>
+      <y>811</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq11">
+    <property name="geometry">
+     <rect>
+      <x>832</x>
+      <y>846</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq8">
+    <property name="geometry">
+     <rect>
+      <x>1040</x>
+      <y>511</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq7">
+    <property name="geometry">
+     <rect>
+      <x>1040</x>
+      <y>471</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq6">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>511</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq5">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>471</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq4">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>511</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq3">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>471</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq2">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>511</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq1">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>471</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>groupBox</zorder>
    <zorder>VariantBtn</zorder>
    <zorder>comboTetrads</zorder>
@@ -1077,6 +1050,22 @@
    <zorder>groupBox_3</zorder>
    <zorder>line</zorder>
    <zorder>label</zorder>
+   <zorder>schemeLabel</zorder>
+   <zorder>sq15</zorder>
+   <zorder>sq14</zorder>
+   <zorder>sq12</zorder>
+   <zorder>sq13</zorder>
+   <zorder>sq9</zorder>
+   <zorder>sq10</zorder>
+   <zorder>sq11</zorder>
+   <zorder>sq8</zorder>
+   <zorder>sq7</zorder>
+   <zorder>sq6</zorder>
+   <zorder>sq5</zorder>
+   <zorder>sq4</zorder>
+   <zorder>sq3</zorder>
+   <zorder>sq2</zorder>
+   <zorder>sq1</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

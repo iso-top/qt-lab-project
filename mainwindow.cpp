@@ -8,6 +8,7 @@
 #include <QPixmap>
 #include <QPushButton>
 #include <QMessageBox>
+#include <QPoint>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -20,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     applyButtonStyles();
     initSquares();
+    initSquarePositions();
 
     updateScheme(ui->VariantBtn->currentIndex());
 
@@ -50,12 +52,105 @@ MainWindow::MainWindow(QWidget *parent)
 
     updateConstButtonsState();
 }
+void MainWindow::initSquarePositions()
+{
+    // Координаты для Scheme_1
+    scheme1Points = {
+        QPoint(530, 471),  // sq1
+        QPoint(1000, 595),  // sq2
+        QPoint(1000, 640),  // sq3
+        QPoint(1000, 675),  // sq4
+        QPoint(1055, 630),  // sq5
+        QPoint(1050, 745),  // sq6
+        QPoint(1085, 605),  // sq7
+        QPoint(1150, 680),  // sq8
+        QPoint(1180, 725),  // sq9
+        QPoint(1180, 770),  // sq10
+        QPoint(1250, 640),  // sq11
+        QPoint(1300, 600),  // sq12
+        QPoint(1300, 690),  // sq13
+        QPoint(1290, 780),  // sq14
+        QPoint(1045, 815)   // sq15
+    };
 
+    // Координаты для Scheme_2
+    scheme2Points = {
+        QPoint(1010, 545),
+        QPoint(990, 580),
+        QPoint(990, 625),
+        QPoint(990, 660),
+        QPoint(1045, 615),
+        QPoint(1040, 735),
+        QPoint(1075, 590),
+        QPoint(1140, 665),
+        QPoint(1170, 710),
+        QPoint(1170, 755),
+        QPoint(1240, 625),
+        QPoint(1290, 585),
+        QPoint(1290, 675),
+        QPoint(1280, 765),
+        QPoint(1035, 805)
+    };
+
+    // Координаты для Scheme_Znak
+    schemeZnakPoints = {
+        QPoint(1030, 575),
+        QPoint(1030, 615),
+        QPoint(1030, 655),
+        QPoint(1030, 695),
+        QPoint(1065, 635),
+        QPoint(1065, 775),
+        QPoint(1100, 625),
+        QPoint(1160, 685),
+        QPoint(1190, 730),
+        QPoint(1190, 775),
+        QPoint(1250, 645),
+        QPoint(1310, 610),
+        QPoint(1310, 695),
+        QPoint(1300, 785),
+        QPoint(1060, 825)
+    };
+}
+void MainWindow::applySquarePositions(const QVector<QPoint> &points)
+{
+    int count = qMin(squares.size(), points.size());
+
+    for (int i = 0; i < count; i++) {
+        squares[i]->move(points[i]);
+    }
+}
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+void MainWindow::on_ApplyBtn_clicked()
+{
+    // Проверяем, включён ли режим "Полный цикл"
+    bool fullCycleEnabled = ui->btnFullCycle->isChecked();
+
+    // Получаем текст из поля "Ошибка в тетраде №"
+    QString errorText = ui->comboError->currentText();
+
+    // Если выбрано "Нет" или "Знак", то это не число
+    bool ok = false;
+    int errorNumber = errorText.toInt(&ok);
+
+    // Если режим "Полный цикл" включён
+    // и номер ошибки 4 или больше -> показать предупреждение
+    if (fullCycleEnabled && ok && errorNumber >= 4)
+    {
+        QMessageBox::warning(
+            this,
+            "Предупреждение",
+            "Работа в режиме \"Полный цикл\" будет занимать десятки минут.\n"
+            "Просьба перейти в режим \"Пара чисел\"."
+        );
+        return;
+    }
+
+    // Здесь дальше твоя обычная логика кнопки "Принять"
+}
 /*
  =========================================================
   Эта функция отвечает за формирование списка
@@ -64,37 +159,21 @@ MainWindow::~MainWindow()
 */
 void MainWindow::updateErrorCombo()
 {
-    /*
-      Получаем количество тетрад из комбобокса
-      "Количество значащих тетрад"
-    */
     int count = ui->comboTetrads->currentText().toInt();
 
-    /*
-      Очищаем старые значения
-    */
     ui->comboError->clear();
-
-    /*
-      Первый пункт всегда "Нет"
-    */
     ui->comboError->addItem("Нет");
 
-    /*
-      Добавляем номера тетрад
-      от 0 до count-1
-    */
     for (int i = 0; i < count; i++)
     {
         ui->comboError->addItem(QString::number(i));
     }
 
-    /*
-      Последний пункт — "Знак"
-    */
     ui->comboError->addItem("Знак");
-}
 
+    // после обновления списка ошибок сразу обновляем схему
+    updateScheme(ui->VariantBtn->currentIndex());
+}
 
 /*
  =========================================================
@@ -112,26 +191,77 @@ void MainWindow::on_comboTetrads_currentIndexChanged(int index)
     updateErrorCombo();
     updateNumberLimits(); // новая функция ограничения
 }
+
 //Переключение схемы в зависимости от варианта
 void MainWindow::updateScheme(int index)
 {
     QString path;
+    bool isZnak = false;
 
-    switch (index) {
-    case 0: path = ":/image/Scheme_1.png"; break;
-    case 1: path = ":/image/Scheme_2.png"; break;
-    default: path = ":/image/Scheme_1.png"; break;
+    if (ui->comboError->currentText() == "Знак") {
+        path = ":/image/Scheme_Znak.png";
+        isZnak = true;
+    } else {
+        switch (index) {
+        case 0:
+            path = ":/image/Scheme_1.png";
+            break;
+        case 1:
+            path = ":/image/Scheme_2.png";
+            break;
+        default:
+            path = ":/image/Scheme_1.png";
+            break;
+        }
     }
 
     QPixmap pix(path);
 
     if (pix.isNull()) {
         ui->schemeLabel->setText("Ошибка загрузки");
-    } else {
-        ui->schemeLabel->setText("");
-        ui->schemeLabel->setPixmap(pix);
-        ui->schemeLabel->setScaledContents(true);
+        return;
     }
+
+    ui->schemeLabel->setText("");
+    ui->schemeLabel->setAlignment(Qt::AlignCenter);
+    ui->schemeLabel->setScaledContents(false);
+
+    // После смены схемы двигаем квадраты
+    if (ui->comboError->currentText() == "Знак") {
+        applySquarePositions(schemeZnakPoints);
+    } else {
+        switch (index) {
+        case 0:
+            applySquarePositions(scheme1Points);
+            break;
+        case 1:
+            applySquarePositions(scheme2Points);
+            break;
+        default:
+            applySquarePositions(scheme1Points);
+            break;
+        }
+    }
+    // коэффициент размера относительно label
+    double scale = 0.95;
+
+    int width  = int(ui->schemeLabel->width() * scale);
+    int height = int(ui->schemeLabel->height() * scale);
+
+    // для схемы "Знак" можно сделать немного больше, но все равно меньше label
+    if (isZnak) {
+        width  = int(ui->schemeLabel->width() * 0.98);
+        height = int(ui->schemeLabel->height() * 0.98);
+    }
+
+    ui->schemeLabel->setPixmap(
+        pix.scaled(
+            width,
+            height,
+            Qt::KeepAspectRatio,
+            Qt::SmoothTransformation
+        )
+    );
 }
 
 //функция что обновляет вариант в зависимости от индекс переменной
@@ -303,6 +433,11 @@ void MainWindow::selectSquare(int index)
     activeSquare = index;
 }
 
+void MainWindow::on_comboError_currentIndexChanged(int index)
+{
+    Q_UNUSED(index);
+    updateScheme(ui->VariantBtn->currentIndex());
+}
 
 //объвление квадратиков для первого варианта
 void MainWindow::on_sq1_clicked()  { selectSquare(0); }

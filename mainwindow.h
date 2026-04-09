@@ -23,6 +23,7 @@ public:
     ~MainWindow();
 
 private slots:
+    void on_ApplyBtn_clicked();
     void on_btnFullCycle_clicked();
     void on_btnPair_clicked();
     void on_VariantBtn_currentIndexChanged(int index);
@@ -43,9 +44,15 @@ private slots:
     void on_sq14_clicked();
     void on_sq15_clicked();
     void on_comboTetrads_currentIndexChanged(int index);
+    void on_comboError_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow *ui;
+    QVector<QPoint> scheme1Points;
+    QVector<QPoint> scheme2Points;
+    QVector<QPoint> schemeZnakPoints;
+    void initSquarePositions();
+    void applySquarePositions(const QVector<QPoint> &points);
 
     void updateNumberLimits();
 
