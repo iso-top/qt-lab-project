@@ -43,6 +43,9 @@ private slots:
     void on_sq13_clicked();
     void on_sq14_clicked();
     void on_sq15_clicked();
+    void on_sq16_clicked();
+    void on_sq17_clicked();
+    void on_sq18_clicked();
     void on_comboTetrads_currentIndexChanged(int index);
     void on_comboError_currentIndexChanged(int index);
 
@@ -53,7 +56,7 @@ private:
     QVector<QPoint> schemeZnakPoints;
     void initSquarePositions();
     void applySquarePositions(const QVector<QPoint> &points);
-
+    void hideUnusedSquares(int usedCount);
     void updateNumberLimits();
 
     QVector<QPushButton*> squares;

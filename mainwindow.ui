@@ -1038,6 +1038,54 @@
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="sq16">
+    <property name="geometry">
+     <rect>
+      <x>1570</x>
+      <y>620</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq17">
+    <property name="geometry">
+     <rect>
+      <x>1590</x>
+      <y>680</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sq18">
+    <property name="geometry">
+     <rect>
+      <x>1620</x>
+      <y>700</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>groupBox</zorder>
    <zorder>VariantBtn</zorder>
    <zorder>comboTetrads</zorder>
@@ -1066,6 +1114,9 @@
    <zorder>sq3</zorder>
    <zorder>sq2</zorder>
    <zorder>sq1</zorder>
+   <zorder>sq16</zorder>
+   <zorder>sq17</zorder>
+   <zorder>sq18</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

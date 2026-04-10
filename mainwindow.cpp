@@ -54,63 +54,72 @@ MainWindow::MainWindow(QWidget *parent)
 }
 void MainWindow::initSquarePositions()
 {
-    // Координаты для Scheme_1
+    // Координаты квадратов для Scheme_1 (x,y)
     scheme1Points = {
-        QPoint(530, 471),  // sq1
-        QPoint(1000, 595),  // sq2
-        QPoint(1000, 640),  // sq3
-        QPoint(1000, 675),  // sq4
-        QPoint(1055, 630),  // sq5
-        QPoint(1050, 745),  // sq6
-        QPoint(1085, 605),  // sq7
-        QPoint(1150, 680),  // sq8
-        QPoint(1180, 725),  // sq9
-        QPoint(1180, 770),  // sq10
-        QPoint(1250, 640),  // sq11
-        QPoint(1300, 600),  // sq12
-        QPoint(1300, 690),  // sq13
-        QPoint(1290, 780),  // sq14
-        QPoint(1045, 815)   // sq15
+        QPoint(502, 453),  // sq1
+        QPoint(502, 495),  // sq2
+        QPoint(689, 453),  // sq3
+        QPoint(689, 495),  // sq4
+        QPoint(875, 453),  // sq5
+        QPoint(875, 495),  // sq6
+        QPoint(1064, 453),  // sq7
+        QPoint(1064, 495),  // sq8
+        QPoint(1005, 770),  // sq9
+        QPoint(835, 827),  // sq10
+        QPoint(835, 869),  // sq11
+        QPoint(1023, 807),  // sq12
+        QPoint(1023, 869),  // sq13
+        QPoint(1190, 825),  // sq14
+        QPoint(1190, 869)   // sq15
     };
 
-    // Координаты для Scheme_2
+    // Координаты квадратов для Scheme_2 (x,y)
     scheme2Points = {
-        QPoint(1010, 545),
-        QPoint(990, 580),
-        QPoint(990, 625),
-        QPoint(990, 660),
-        QPoint(1045, 615),
-        QPoint(1040, 735),
-        QPoint(1075, 590),
-        QPoint(1140, 665),
-        QPoint(1170, 710),
-        QPoint(1170, 755),
-        QPoint(1240, 625),
-        QPoint(1290, 585),
-        QPoint(1290, 675),
-        QPoint(1280, 765),
-        QPoint(1035, 805)
+        QPoint(590, 453),  // sq1
+        QPoint(610, 514),  // sq2
+        QPoint(780, 435),  // sq3
+        QPoint(803, 514),  // sq4
+        QPoint(995, 510),  // sq5
+        QPoint(520, 604),  // sq6
+        QPoint(520, 650),  // sq7
+        QPoint(715, 604),  // sq8
+        QPoint(715, 650),  // sq9
+        QPoint(910, 604),  // sq10
+        QPoint(910, 650),  // sq11
+        QPoint(1105, 604),  // sq12
+        QPoint(1105, 650),  // sq13
+        QPoint(867, 800),  // sq14
+        QPoint(890, 858),   // sq15
+        QPoint(1037, 800),   // sq16
+        QPoint(1060, 875),   // sq17
+        QPoint(1252, 875)   // sq18
     };
 
-    // Координаты для Scheme_Znak
+    // Координаты для квадратов Scheme_Znak (x,y)
     schemeZnakPoints = {
-        QPoint(1030, 575),
-        QPoint(1030, 615),
-        QPoint(1030, 655),
-        QPoint(1030, 695),
-        QPoint(1065, 635),
-        QPoint(1065, 775),
-        QPoint(1100, 625),
-        QPoint(1160, 685),
-        QPoint(1190, 730),
-        QPoint(1190, 775),
-        QPoint(1250, 645),
-        QPoint(1310, 610),
-        QPoint(1310, 695),
-        QPoint(1300, 785),
-        QPoint(1060, 825)
+        QPoint(467, 610),  // sq1
+        QPoint(500, 730),  // sq2
+        QPoint(791, 610),  // sq3
+        QPoint(824, 730),  // sq4
+        QPoint(1118, 610),  // sq5
+        QPoint(1151, 730),  // sq6
+        QPoint(1444, 610),  // sq7
+        QPoint(1484, 730),  // sq8
     };
 }
+//функция скрытия квадратов
+
+void MainWindow::hideUnusedSquares(int usedCount)
+{
+    for (int i = 0; i < squares.size(); i++) {
+
+        if (i < usedCount)
+            squares[i]->show();
+        else
+            squares[i]->hide();
+    }
+}
+
 void MainWindow::applySquarePositions(const QVector<QPoint> &points)
 {
     int count = qMin(squares.size(), points.size());
@@ -198,6 +207,7 @@ void MainWindow::updateScheme(int index)
     QString path;
     bool isZnak = false;
 
+    // Выбираем картинку схемы
     if (ui->comboError->currentText() == "Знак") {
         path = ":/image/Scheme_Znak.png";
         isZnak = true;
@@ -226,29 +236,13 @@ void MainWindow::updateScheme(int index)
     ui->schemeLabel->setAlignment(Qt::AlignCenter);
     ui->schemeLabel->setScaledContents(false);
 
-    // После смены схемы двигаем квадраты
-    if (ui->comboError->currentText() == "Знак") {
-        applySquarePositions(schemeZnakPoints);
-    } else {
-        switch (index) {
-        case 0:
-            applySquarePositions(scheme1Points);
-            break;
-        case 1:
-            applySquarePositions(scheme2Points);
-            break;
-        default:
-            applySquarePositions(scheme1Points);
-            break;
-        }
-    }
-    // коэффициент размера относительно label
+    // Масштаб картинки внутри label
     double scale = 0.95;
 
     int width  = int(ui->schemeLabel->width() * scale);
     int height = int(ui->schemeLabel->height() * scale);
 
-    // для схемы "Знак" можно сделать немного больше, но все равно меньше label
+    // Для схемы "Знак" можно сделать размер чуть больше
     if (isZnak) {
         width  = int(ui->schemeLabel->width() * 0.98);
         height = int(ui->schemeLabel->height() * 0.98);
@@ -262,6 +256,29 @@ void MainWindow::updateScheme(int index)
             Qt::SmoothTransformation
         )
     );
+
+    // После смены схемы двигаем квадраты и скрываем лишние
+    if (isZnak) {
+        applySquarePositions(schemeZnakPoints);
+        hideUnusedSquares(8);
+    } else {
+        switch (index) {
+        case 0:
+            applySquarePositions(scheme1Points);
+            hideUnusedSquares(15);
+            break;
+
+        case 1:
+            applySquarePositions(scheme2Points);
+            hideUnusedSquares(18);
+            break;
+
+        default:
+            applySquarePositions(scheme1Points);
+            hideUnusedSquares(15);
+            break;
+        }
+    }
 }
 
 //функция что обновляет вариант в зависимости от индекс переменной
@@ -403,7 +420,10 @@ void MainWindow::initSquares()
         ui->sq12,
         ui->sq13,
         ui->sq14,
-        ui->sq15
+        ui->sq15,
+        ui->sq16,
+        ui->sq17,
+        ui->sq18
     };
 
     for (auto b : squares)
@@ -455,3 +475,6 @@ void MainWindow::on_sq12_clicked() { selectSquare(11); }
 void MainWindow::on_sq13_clicked() { selectSquare(12); }
 void MainWindow::on_sq14_clicked() { selectSquare(13); }
 void MainWindow::on_sq15_clicked() { selectSquare(14); }
+void MainWindow::on_sq16_clicked() { selectSquare(15); }
+void MainWindow::on_sq17_clicked() { selectSquare(16); }
+void MainWindow::on_sq18_clicked() { selectSquare(17); }
