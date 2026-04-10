@@ -1,6 +1,7 @@
 // mainwindow.cpp
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "DataCollector.h"
 
 #include <QIntValidator>
 #include <cmath>
@@ -159,6 +160,10 @@ void MainWindow::on_ApplyBtn_clicked()
     }
 
     // Здесь дальше твоя обычная логика кнопки "Принять"
+    QVector<int> data = DataCollector::collect(this);
+
+    // пример вывода в консоль
+    qDebug() << "Массив параметров:" << data;
 }
 /*
  =========================================================
@@ -458,6 +463,7 @@ void MainWindow::on_comboError_currentIndexChanged(int index)
     Q_UNUSED(index);
     updateScheme(ui->VariantBtn->currentIndex());
 }
+
 
 //объвление квадратиков для первого варианта
 void MainWindow::on_sq1_clicked()  { selectSquare(0); }

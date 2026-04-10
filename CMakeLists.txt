@@ -14,6 +14,8 @@ qt_add_executable(Lab_check
     mainwindow.h
     mainwindow.ui
     ${APP_RESOURCES}
+    DataCollector.cpp
+    DataCollector.h
 )
 qt_add_translations(
     TARGETS Lab_check

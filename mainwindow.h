@@ -20,7 +20,9 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    Ui::MainWindow* getUI() { return ui; }
     ~MainWindow();
+
 
 private slots:
     void on_ApplyBtn_clicked();
