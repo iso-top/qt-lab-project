@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "DataCollector.h"
+#include "MassScheme.h"
 
 #include <QIntValidator>
 #include <cmath>
@@ -10,6 +11,7 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <QPoint>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -57,55 +59,55 @@ void MainWindow::initSquarePositions()
 {
     // Координаты квадратов для Scheme_1 (x,y)
     scheme1Points = {
-        QPoint(502, 453),  // sq1
-        QPoint(502, 495),  // sq2
-        QPoint(689, 453),  // sq3
-        QPoint(689, 495),  // sq4
-        QPoint(875, 453),  // sq5
-        QPoint(875, 495),  // sq6
-        QPoint(1064, 453),  // sq7
-        QPoint(1064, 495),  // sq8
-        QPoint(1005, 770),  // sq9
-        QPoint(835, 827),  // sq10
-        QPoint(835, 869),  // sq11
-        QPoint(1023, 807),  // sq12
-        QPoint(1023, 869),  // sq13
-        QPoint(1190, 825),  // sq14
-        QPoint(1190, 869)   // sq15
+        QPoint(502, 453),  // sq1 ТРУ
+        QPoint(689, 453),  // sq2 ТРУ
+        QPoint(875, 453),  // sq3 ТРУ 2 1
+        QPoint(1064, 453),  // sq4 ТРУ
+        QPoint(502, 495),  // sq5 ТРУ
+        QPoint(689, 495),  // sq6 ТРУ
+        QPoint(875, 495),  // sq7 ТРУ
+        QPoint(1064, 495),  // sq8 ТРУ
+        QPoint(1005, 770),  // sq9 ТРУ
+        QPoint(835, 827),  // sq10 ТРУ
+        QPoint(1023, 807),  // sq11 ТРУ
+        QPoint(1190, 825),  // sq12 ТРУ
+        QPoint(835, 869),  // sq13 ТРУ
+        QPoint(1023, 869),  // sq14 ТРУ
+        QPoint(1190, 869)   // sq15 ТРУ
     };
 
     // Координаты квадратов для Scheme_2 (x,y)
     scheme2Points = {
-        QPoint(590, 453),  // sq1
-        QPoint(610, 514),  // sq2
-        QPoint(780, 435),  // sq3
-        QPoint(803, 514),  // sq4
-        QPoint(995, 510),  // sq5
-        QPoint(520, 604),  // sq6
-        QPoint(520, 650),  // sq7
-        QPoint(715, 604),  // sq8
-        QPoint(715, 650),  // sq9
-        QPoint(910, 604),  // sq10
-        QPoint(910, 650),  // sq11
-        QPoint(1105, 604),  // sq12
-        QPoint(1105, 650),  // sq13
-        QPoint(867, 800),  // sq14
-        QPoint(890, 858),   // sq15
-        QPoint(1037, 800),   // sq16
-        QPoint(1060, 875),   // sq17
-        QPoint(1252, 875)   // sq18
+        QPoint(590, 453),  // sq1 ТРУ
+        QPoint(780, 435),  // sq2 ТРУ
+        QPoint(610, 514),  // sq3 ТРУ
+        QPoint(803, 514),  // sq4 ТРУ
+        QPoint(995, 510),  // sq5 ТРУ
+        QPoint(520, 604),  // sq6 ТРУ
+        QPoint(715, 604),  // sq7 ТРУ
+        QPoint(910, 604),  // sq8 ТРУ
+        QPoint(1105, 604),  // sq9 ТРУ
+        QPoint(520, 650),  // sq10 ТРУ
+        QPoint(715, 650),  // sq11 ТРУ
+        QPoint(910, 650),  // sq12 ТРУ
+        QPoint(1105, 650),  // sq13 ТРУ
+        QPoint(867, 800),  // sq14 ТРУ
+        QPoint(1037, 800),   // sq15 ТРУ
+        QPoint(890, 858),   // sq16 ТРУ
+        QPoint(1060, 875),   // sq17 ТРУ
+        QPoint(1252, 875)   // sq18 ТРУ
     };
 
     // Координаты для квадратов Scheme_Znak (x,y)
     schemeZnakPoints = {
-        QPoint(467, 610),  // sq1
-        QPoint(500, 730),  // sq2
-        QPoint(791, 610),  // sq3
-        QPoint(824, 730),  // sq4
-        QPoint(1118, 610),  // sq5
-        QPoint(1151, 730),  // sq6
-        QPoint(1444, 610),  // sq7
-        QPoint(1484, 730),  // sq8
+        QPoint(467, 610),  // sq1 ТРУ
+        QPoint(791, 610),  // sq2 ТРУ
+        QPoint(1118, 610),  // sq3 ТРУ
+        QPoint(1444, 610),  // sq4 ТРУ
+        QPoint(500, 730),  // sq5 ТРУ
+        QPoint(824, 730),  // sq6 ТРУ
+        QPoint(1151, 730),  // sq7 ТРУ
+        QPoint(1484, 730),  // sq8 ТРУ
     };
 }
 //функция скрытия квадратов
@@ -464,7 +466,31 @@ void MainWindow::on_comboError_currentIndexChanged(int index)
     updateScheme(ui->VariantBtn->currentIndex());
 }
 
+void MainWindow::on_ApplyBtn2_clicked()
+{
+    SchemeInput data;
 
+    data.variant = ui->VariantBtn->currentIndex() + 1;
+    data.kTetr = ui->comboTetrads->currentText().toInt();
+    data.isSign = (ui->comboError->currentText() == "Знак");
+    data.activeSquare = activeSquare;
+
+    qDebug() << "======================";
+    qDebug() << "variant =" << data.variant;
+    qDebug() << "kTetr =" << data.kTetr;
+    qDebug() << "isSign =" << data.isSign;
+    qDebug() << "activeSquare =" << data.activeSquare;
+
+    SchemeResult result = MassScheme::build(data);
+
+    qDebug() << "sector =" << result.sectorName;
+
+    for (int i = 0; i < result.mass.size(); i++) {
+        qDebug() << result.mass[i];
+    }
+
+    qDebug() << "======================";
+}
 //объвление квадратиков для первого варианта
 void MainWindow::on_sq1_clicked()  { selectSquare(0); }
 void MainWindow::on_sq2_clicked()  { selectSquare(1); }

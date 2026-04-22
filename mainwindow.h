@@ -26,6 +26,7 @@ public:
 
 private slots:
     void on_ApplyBtn_clicked();
+    void on_ApplyBtn2_clicked();
     void on_btnFullCycle_clicked();
     void on_btnPair_clicked();
     void on_VariantBtn_currentIndexChanged(int index);

@@ -16,6 +16,7 @@ qt_add_executable(Lab_check
     ${APP_RESOURCES}
     DataCollector.cpp
     DataCollector.h
+    MassScheme.h MassScheme.cpp
 )
 qt_add_translations(
     TARGETS Lab_check
