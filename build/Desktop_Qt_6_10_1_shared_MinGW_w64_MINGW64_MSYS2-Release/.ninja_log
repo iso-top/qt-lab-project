@@ -1,0 +1,19 @@
+# ninja log v7
+7	90	7985878952812094	Lab_check_ru_RU.qm	fea7b1fd624a432f
+7	90	7985878952812094	C:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/build/Desktop_Qt_6_10_1_shared_MinGW_w64_MINGW64_MSYS2-Release/Lab_check_ru_RU.qm	fea7b1fd624a432f
+15	602	7985878957483292	Lab_check_autogen/timestamp	4fb2bee90745a0c9
+15	602	7985878957483292	Lab_check_autogen/mocs_compilation.cpp	4fb2bee90745a0c9
+15	602	7985878957483292	C:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/build/Desktop_Qt_6_10_1_shared_MinGW_w64_MINGW64_MSYS2-Release/Lab_check_autogen/timestamp	4fb2bee90745a0c9
+15	602	7985878957483292	C:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/build/Desktop_Qt_6_10_1_shared_MinGW_w64_MINGW64_MSYS2-Release/Lab_check_autogen/mocs_compilation.cpp	4fb2bee90745a0c9
+612	645	7985878958364064	.qt/rcc/qrc_Lab_check_translations.cpp	63f2127c96c42395
+612	645	7985878958364064	C:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/build/Desktop_Qt_6_10_1_shared_MinGW_w64_MINGW64_MSYS2-Release/.qt/rcc/qrc_Lab_check_translations.cpp	63f2127c96c42395
+605	668	7985878958588101	qrc_image_res.cpp	203a4dd637fe3178
+605	668	7985878958588101	C:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/build/Desktop_Qt_6_10_1_shared_MinGW_w64_MINGW64_MSYS2-Release/qrc_image_res.cpp	203a4dd637fe3178
+701	882	7985878958968703	CMakeFiles/Lab_check.dir/5525c759e0e1ceac458d415dadf36d28/.qt/rcc/qrc_Lab_check_translations.cpp.obj	c2ad2eb687d10824
+691	886	7985878958863612	CMakeFiles/Lab_check.dir/qrc_image_res.cpp.obj	23564701194b1029
+698	1730	7985878958933661	CMakeFiles/Lab_check.dir/MassScheme.cpp.obj	a63a678219845bfe
+668	2076	7985878958638104	CMakeFiles/Lab_check.dir/Lab_check_autogen/mocs_compilation.cpp.obj	28caf089f4b643a7
+684	2131	7985878958798533	CMakeFiles/Lab_check.dir/main.cpp.obj	b8a1c2fd7796620a
+694	2327	7985878958903666	CMakeFiles/Lab_check.dir/DataCollector.cpp.obj	6d72484255d76a01
+687	3439	7985878958828550	CMakeFiles/Lab_check.dir/mainwindow.cpp.obj	775ef52190ef66a9
+3439	3601	7985878986354054	Lab_check.exe	7707cd1422901455
