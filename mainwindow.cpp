@@ -27,7 +27,7 @@
 #include <QMessageBox> // всплывающие окна
 #include <QPoint> // координаты (x,y)
 #include <QDebug> // вывод в консоль
-
+#include <QFile>
 /*
 =========================================================
 Конструктор главного окна
@@ -355,6 +355,8 @@ void MainWindow::updateScheme(int index)
             break;
         }
     }
+    qDebug() << "PATH =" << path;
+    qDebug() << "RESOURCE EXISTS =" << QFile::exists(path);
 }
 
 //функция что обновляет вариант в зависимости от индекс переменной
