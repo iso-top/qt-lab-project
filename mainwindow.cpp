@@ -1,32 +1,61 @@
 // mainwindow.cpp
+/*
+=========================================================
+Файл mainwindow.cpp
+
+Реализует класс MainWindow, который отвечает за:
+
+• работу интерфейса программы
+• переключение схем
+• обработку действий пользователя
+• работу с квадратами (выбор узла)
+• передачу данных в MassScheme
+
+Это основной файл логики GUI.
+=========================================================
+*/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "DataCollector.h"
-#include "MassScheme.h"
+#include "DataCollector.h" // сбор параметров интерфейса
+#include "MassScheme.h" // сбор параметров интерфейса
 
-#include <QIntValidator>
-#include <cmath>
-#include <QFont>
-#include <QPixmap>
-#include <QPushButton>
-#include <QMessageBox>
-#include <QPoint>
-#include <QDebug>
+#include <QIntValidator> // ограничение ввода чисел встроенная библиотека qt
+#include <cmath> // математические функции встроенная библиотека qt
+#include <QFont> // работа со шрифтами
+#include <QPixmap>  // работа с изображениями
+#include <QPushButton> // кнопки интерфейса
+#include <QMessageBox> // всплывающие окна
+#include <QPoint> // координаты (x,y)
+#include <QDebug> // вывод в консоль
 
+/*
+=========================================================
+Конструктор главного окна
+
+Здесь происходит вся начальная настройка:
+
+• загрузка интерфейса
+• установка ограничений ввода
+• формирование списка ошибок
+• настройка кнопок
+• инициализация квадратов
+• загрузка схемы
+=========================================================
+*/
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
 
     ui->setupUi(this);
-    updateNumberLimits();
-    updateErrorCombo();
+    updateNumberLimits(); // ограничение чисел A и B
+    updateErrorCombo(); // заполнение списка ошибок
 
-    applyButtonStyles();
-    initSquares();
-    initSquarePositions();
+    applyButtonStyles(); // стили кнопок
+    initSquares(); // создание списка квадратов
+    initSquarePositions(); // координаты квадратов
 
-    updateScheme(ui->VariantBtn->currentIndex());
+    updateScheme(ui->VariantBtn->currentIndex()); // загрузка схемы
 
     ui->btnFullCycle->setChecked(false);
     ui->btnPair->setChecked(false);
@@ -35,16 +64,25 @@ MainWindow::MainWindow(QWidget *parent)
     ui->btnB->setEnabled(false);
     ui->btnCarry->setEnabled(false);
 
+    /*
+        Группа кнопок выбора типа ошибки
+    */
     errorGroup = new QButtonGroup(this);
     errorGroup->setExclusive(true);
     errorGroup->addButton(ui->btnFail);
     errorGroup->addButton(ui->btnReject);
 
+    /*
+    Группа кнопок выбора констант
+    */
     constGroup = new QButtonGroup(this);
     constGroup->setExclusive(true);
     constGroup->addButton(ui->btnConst0);
     constGroup->addButton(ui->btnConst1);
 
+    /*
+    При изменении типа ошибки обновляем доступность констант
+    */
     connect(ui->btnFail, &QPushButton::toggled, this, [this]() {
         updateConstButtonsState();
     });
@@ -55,6 +93,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     updateConstButtonsState();
 }
+
+
+/*
+=========================================================
+Координаты квадратов для всех схем
+
+Каждый квадрат — это кнопка поверх изображения.
+
+Для каждой схемы задаются свои координаты.
+=========================================================
+*/
 void MainWindow::initSquarePositions()
 {
     // Координаты квадратов для Scheme_1 (x,y)
@@ -109,8 +158,14 @@ void MainWindow::initSquarePositions()
         QPoint(1484, 730),  // sq7 ТРУ
     };
 }
-//функция скрытия квадратов
 
+/*
+=========================================================
+Скрытие лишних квадратов
+
+Разные схемы имеют разное количество элементов.
+=========================================================
+*/
 void MainWindow::hideUnusedSquares(int usedCount)
 {
     for (int i = 0; i < squares.size(); i++) {
@@ -121,7 +176,11 @@ void MainWindow::hideUnusedSquares(int usedCount)
             squares[i]->hide();
     }
 }
-
+/*
+=========================================================
+Установка координат квадратов
+=========================================================
+*/
 void MainWindow::applySquarePositions(const QVector<QPoint> &points)
 {
     int count = qMin(squares.size(), points.size());
@@ -135,6 +194,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/*
+=========================================================
+Кнопка "Принять"
+
+Проверяет параметры и собирает данные
+=========================================================
+*/
 void MainWindow::on_ApplyBtn_clicked()
 {
     // Проверяем, включён ли режим "Полный цикл"
@@ -207,7 +273,11 @@ void MainWindow::on_comboTetrads_currentIndexChanged(int index)
     updateNumberLimits(); // новая функция ограничения
 }
 
-//Переключение схемы в зависимости от варианта
+/*
+=========================================================
+Обновление схемы в зависимости от варианта
+=========================================================
+*/
 void MainWindow::updateScheme(int index)
 {
     QString path;
@@ -292,7 +362,11 @@ void MainWindow::on_VariantBtn_currentIndexChanged(int index)
 {
     updateScheme(index);
 }
-
+/*
+=========================================================
+Стили кнопок общий вид кнопки
+=========================================================
+*/
 
 void MainWindow::applyButtonStyles()
 {
@@ -441,6 +515,12 @@ void MainWindow::setSquareColor(QPushButton *button, const QString &color)
     button->setStyleSheet("background:" + color + "; border:1px solid black;");
 }
 
+
+/*
+=========================================================
+Выбор квадрата
+=========================================================
+*/
 void MainWindow::selectSquare(int index)
 {
     if (index < 0 || index >= squares.size())
@@ -465,6 +545,12 @@ void MainWindow::on_comboError_currentIndexChanged(int index)
     updateScheme(ui->VariantBtn->currentIndex());
 }
 
+
+/*
+=============================================================
+Формирование массива схемы при нажатии нижней кнопки принять
+=============================================================
+*/
 void MainWindow::on_ApplyBtn2_clicked()
 {
     SchemeInput data;
