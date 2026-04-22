@@ -318,7 +318,7 @@ void MainWindow::updateScheme(int index)
     int width  = int(ui->schemeLabel->width() * scale);
     int height = int(ui->schemeLabel->height() * scale);
 
-    // Для схемы "Знак" можно сделать размер чуть больше
+    // Для схемы "Знак" скоректирован размер
     if (isZnak) {
         width  = int(ui->schemeLabel->width() * 0.98);
         height = int(ui->schemeLabel->height() * 0.98);
