@@ -103,11 +103,10 @@ void MainWindow::initSquarePositions()
         QPoint(467, 610),  // sq1 ТРУ
         QPoint(791, 610),  // sq2 ТРУ
         QPoint(1118, 610),  // sq3 ТРУ
-        QPoint(1444, 610),  // sq4 ТРУ
-        QPoint(500, 730),  // sq5 ТРУ
-        QPoint(824, 730),  // sq6 ТРУ
-        QPoint(1151, 730),  // sq7 ТРУ
-        QPoint(1484, 730),  // sq8 ТРУ
+        QPoint(500, 730),  // sq4 ТРУ
+        QPoint(824, 730),  // sq5 ТРУ
+        QPoint(1151, 730),  // sq6 ТРУ
+        QPoint(1484, 730),  // sq7 ТРУ
     };
 }
 //функция скрытия квадратов
@@ -267,7 +266,7 @@ void MainWindow::updateScheme(int index)
     // После смены схемы двигаем квадраты и скрываем лишние
     if (isZnak) {
         applySquarePositions(schemeZnakPoints);
-        hideUnusedSquares(8);
+        hideUnusedSquares(7);
     } else {
         switch (index) {
         case 0:
@@ -471,18 +470,17 @@ void MainWindow::on_ApplyBtn2_clicked()
     SchemeInput data;
 
     data.variant = ui->VariantBtn->currentIndex() + 1;
-    data.kTetr = ui->comboTetrads->currentText().toInt();
+    data.kTetr = ui->comboTetrads->currentText().toInt();   // 1..7
     data.isSign = (ui->comboError->currentText() == "Знак");
     data.activeSquare = activeSquare;
+
+    SchemeResult result = MassScheme::build(data);
 
     qDebug() << "======================";
     qDebug() << "variant =" << data.variant;
     qDebug() << "kTetr =" << data.kTetr;
     qDebug() << "isSign =" << data.isSign;
     qDebug() << "activeSquare =" << data.activeSquare;
-
-    SchemeResult result = MassScheme::build(data);
-
     qDebug() << "sector =" << result.sectorName;
 
     for (int i = 0; i < result.mass.size(); i++) {
