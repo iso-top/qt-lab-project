@@ -8,13 +8,14 @@
 • работу интерфейса программы
 • переключение схем
 • обработку действий пользователя
-• работу с квадратами (выбор узла)
+• работу с квадратами на схемах
 • передачу данных в MassScheme
 
 Это основной файл логики GUI.
 =========================================================
 */
 #include "mainwindow.h"
+#include "teacher/ChetnostVar1.h"
 #include "ui_mainwindow.h"
 #include "DataCollector.h" // сбор параметров интерфейса
 #include "MassScheme.h" // сбор параметров интерфейса
@@ -28,6 +29,69 @@
 #include <QPoint> // координаты (x,y)
 #include <QDebug> // вывод в консоль
 #include <QFile>
+#include <QTextStream>//для работы с текстовым файлом
+#include <QSignalBlocker>
+#include <QCoreApplication>
+#include <QFile>
+#include <QTextStream>
+class NoLeadingZeroIntValidator : public QIntValidator
+{
+public:
+    NoLeadingZeroIntValidator(int bottom, int top, QObject *parent = nullptr)
+        : QIntValidator(bottom, top, parent)
+    {
+    }
+
+    State validate(QString &input, int &pos) const override
+    {
+        Q_UNUSED(pos);
+
+        // Пустое поле разрешаем как промежуточное состояние
+        if (input.isEmpty())
+            return Intermediate;
+
+        // Разрешаем пользователю начать ввод отрицательного числа
+        if (input == "-")
+            return Intermediate;
+
+        // Плюс в начале запрещаем
+        if (input.startsWith("+"))
+            return Invalid;
+
+        bool negative = input.startsWith("-");
+        QString digits = negative ? input.mid(1) : input;
+
+        if (digits.isEmpty())
+            return Intermediate;
+
+        // Разрешаем только цифры
+        for (QChar ch : digits) {
+            if (!ch.isDigit())
+                return Invalid;
+        }
+
+        // Запрещаем ведущие нули:
+        // 00, 0005, 002000, -01, -0003
+        if (digits.length() > 1 && digits.startsWith("0"))
+            return Invalid;
+
+        // Запрещаем -0
+        if (negative && digits == "0")
+            return Invalid;
+
+        bool ok = false;
+        int value = input.toInt(&ok);
+
+        if (!ok)
+            return Invalid;
+
+        // Проверяем диапазон по количеству тетрад
+        if (value < bottom() || value > top())
+            return Invalid;
+
+        return Acceptable;
+    }
+};
 /*
 =========================================================
 Конструктор главного окна
@@ -46,23 +110,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-
     ui->setupUi(this);
-    updateNumberLimits(); // ограничение чисел A и B
-    updateErrorCombo(); // заполнение списка ошибок
-
-    applyButtonStyles(); // стили кнопок
-    initSquares(); // создание списка квадратов
-    initSquarePositions(); // координаты квадратов
-
-    updateScheme(ui->VariantBtn->currentIndex()); // загрузка схемы
-
-    ui->btnFullCycle->setChecked(false);
-    ui->btnPair->setChecked(false);
-
-    ui->btnA->setEnabled(false);
-    ui->btnB->setEnabled(false);
-    ui->btnCarry->setEnabled(false);
 
     /*
         Группа кнопок выбора типа ошибки
@@ -73,7 +121,7 @@ MainWindow::MainWindow(QWidget *parent)
     errorGroup->addButton(ui->btnReject);
 
     /*
-    Группа кнопок выбора констант
+        Группа кнопок выбора констант
     */
     constGroup = new QButtonGroup(this);
     constGroup->setExclusive(true);
@@ -81,19 +129,56 @@ MainWindow::MainWindow(QWidget *parent)
     constGroup->addButton(ui->btnConst1);
 
     /*
-    При изменении типа ошибки обновляем доступность констант
+        При изменении типа ошибки обновляем доступность констант
     */
     connect(ui->btnFail, &QPushButton::toggled, this, [this]() {
         updateConstButtonsState();
+        lockBottomScheme();
     });
 
     connect(ui->btnReject, &QPushButton::toggled, this, [this]() {
         updateConstButtonsState();
+        lockBottomScheme();
     });
 
-    updateConstButtonsState();
-}
+    connect(ui->btnConst0, &QPushButton::toggled, this, [this]() {
+        lockBottomScheme();
+    });
 
+    connect(ui->btnConst1, &QPushButton::toggled, this, [this]() {
+        lockBottomScheme();
+    });
+
+    connect(ui->btnA, &QLineEdit::textChanged, this, [this]() {
+        lockBottomScheme();
+    });
+
+    connect(ui->btnB, &QLineEdit::textChanged, this, [this]() {
+        lockBottomScheme();
+    });
+
+    connect(ui->btnCarry, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this]() {
+        lockBottomScheme();
+    });
+
+    applyButtonStyles();
+
+    initSquares();
+    initSquarePositions();
+
+    updateNumberLimits();
+    updateErrorCombo();
+
+    ui->btnFullCycle->setChecked(false);
+    ui->btnPair->setChecked(false);
+
+    ui->btnA->setEnabled(false);
+    ui->btnB->setEnabled(false);
+    ui->btnCarry->setEnabled(false);
+
+    updateScheme(ui->VariantBtn->currentIndex());
+    updateErrorControlsState();
+}
 
 /*
 =========================================================
@@ -163,7 +248,7 @@ void MainWindow::initSquarePositions()
 =========================================================
 Скрытие лишних квадратов
 
-Разные схемы имеют разное количество элементов.
+Разные схемы имеют разное количество квадратов всего квадратов 18.
 =========================================================
 */
 void MainWindow::hideUnusedSquares(int usedCount)
@@ -196,41 +281,29 @@ MainWindow::~MainWindow()
 
 /*
 =========================================================
-Кнопка "Принять"
+Кнопка "Принять"(вверхняя) - собирает данные из интерфейса и формирует массив параметров
 
 Проверяет параметры и собирает данные
 =========================================================
 */
 void MainWindow::on_ApplyBtn_clicked()
 {
-    // Проверяем, включён ли режим "Полный цикл"
-    bool fullCycleEnabled = ui->btnFullCycle->isChecked();
-
-    // Получаем текст из поля "Ошибка в тетраде №"
-    QString errorText = ui->comboError->currentText();
-
-    // Если выбрано "Нет" или "Знак", то это не число
-    bool ok = false;
-    int errorNumber = errorText.toInt(&ok);
-
-    // Если режим "Полный цикл" включён
-    // и номер ошибки 4 или больше -> показать предупреждение
-    if (fullCycleEnabled && ok && errorNumber >= 4)
-    {
-        QMessageBox::warning(
-            this,
-            "Предупреждение",
-            "Работа в режиме \"Полный цикл\" будет занимать десятки минут.\n"
-            "Просьба перейти в режим \"Пара чисел\"."
-        );
+    if (isFullCycleTooLong()) {
+        showFullCycleWarning();
+        lockBottomScheme();
         return;
     }
 
-    // Здесь дальше твоя обычная логика кнопки "Принять"
+    if (!validateTopControls()) {
+        lockBottomScheme();
+        return;
+    }
+
     QVector<int> data = DataCollector::collect(this);
 
-    // пример вывода в консоль
     qDebug() << "Массив параметров:" << data;
+
+    unlockBottomScheme();
 }
 /*
  =========================================================
@@ -240,6 +313,8 @@ void MainWindow::on_ApplyBtn_clicked()
 */
 void MainWindow::updateErrorCombo()
 {
+    QSignalBlocker blocker(ui->comboError);
+
     int count = ui->comboTetrads->currentText().toInt();
 
     ui->comboError->clear();
@@ -252,7 +327,9 @@ void MainWindow::updateErrorCombo()
 
     ui->comboError->addItem("Знак");
 
-    // после обновления списка ошибок сразу обновляем схему
+    ui->comboError->setCurrentIndex(0);
+
+    updateErrorControlsState();
     updateScheme(ui->VariantBtn->currentIndex());
 }
 
@@ -270,7 +347,15 @@ void MainWindow::on_comboTetrads_currentIndexChanged(int index)
     Q_UNUSED(index);
 
     updateErrorCombo();
-    updateNumberLimits(); // новая функция ограничения
+    updateNumberLimits();
+
+    if (isFullCycleTooLong()) {
+        showFullCycleWarning();
+
+        ui->btnFullCycle->setChecked(false);
+    }
+
+    lockBottomScheme();
 }
 
 /*
@@ -355,14 +440,14 @@ void MainWindow::updateScheme(int index)
             break;
         }
     }
-    qDebug() << "PATH =" << path;
-    qDebug() << "RESOURCE EXISTS =" << QFile::exists(path);
 }
 
 //функция что обновляет вариант в зависимости от индекс переменной
 void MainWindow::on_VariantBtn_currentIndexChanged(int index)
 {
     updateScheme(index);
+
+    lockBottomScheme();
 }
 /*
 =========================================================
@@ -378,12 +463,13 @@ void MainWindow::applyButtonStyles()
 
     QString errorStyle =
         "QPushButton { background: lightgray; border:1px solid black; }"
-        "QPushButton:checked { background: rgb(120,255,120); }";
+        "QPushButton:checked { background: rgb(120,255,120); }"
+        "QPushButton:disabled { background: rgb(180,180,180); border:1px solid gray; }";
 
     QString constStyle =
         "QPushButton { background: lightgray; border:1px solid black; }"
         "QPushButton:checked { background: rgb(120,255,120); }"
-        "QPushButton:disabled { background: rgb(80,80,80); }";
+        "QPushButton:disabled { background: rgb(180,180,180); border:1px solid gray; }";
 
     ui->btnFullCycle->setStyleSheet(modeStyle);
     ui->btnPair->setStyleSheet(modeStyle);
@@ -398,41 +484,60 @@ void MainWindow::applyButtonStyles()
 //подсказка что вылазит когда нажимаешь на кнопку "?"
 void MainWindow::on_HelpBtn_clicked()
 {
-    QMessageBox msg;
+    QString helpPath = QCoreApplication::applicationDirPath() + "/help.txt";
 
+    QFile file(helpPath);
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::warning(
+            this,
+            "Ошибка",
+            "Не удалось открыть файл подсказки:\n" + helpPath
+        );
+        return;
+    }
+
+    QTextStream in(&file);
+    in.setEncoding(QStringConverter::Utf8);
+
+    QString helpText = in.readAll();
+
+    QMessageBox msg(this);
     msg.setWindowTitle("О программе");
-
-    msg.setText(
-        "Программа для вычислений\n"
-        "- выбор варианта схемы;\n"
-        "- выбор режима работы;\n"
-        "- выбор состояния элементов;\n"
-        "- отображение активного узла на схеме.\n\n"
-        "\n"
-        "-----------------------"
-    );
+    msg.setTextFormat(Qt::PlainText);
+    msg.setText(helpText);
 
     QFont font;
-    font.setPointSize(14);   // размер текста
+    font.setPointSize(14);
     msg.setFont(font);
 
-    msg.setMinimumWidth(500); // ширина окна
-
+    msg.setMinimumWidth(500);
     msg.exec();
 }
+// константы не вкл пока не выбрано чтото другое помимо нет в "Ошибка в тетраде №"
 void MainWindow::updateConstButtonsState()
 {
-    bool enabled = ui->btnReject->isChecked();
+    QString errorText = ui->comboError->currentText();
+
+    bool hasError = !errorText.isEmpty() && errorText != "Нет";
+    bool enabled = hasError && ui->btnReject->isChecked();
 
     ui->btnConst0->setEnabled(enabled);
     ui->btnConst1->setEnabled(enabled);
 
     if (!enabled) {
+        if (constGroup) {
+            constGroup->setExclusive(false);
+        }
+
         ui->btnConst0->setChecked(false);
         ui->btnConst1->setChecked(false);
+
+        if (constGroup) {
+            constGroup->setExclusive(true);
+        }
     }
 }
-
 void MainWindow::clearRightMode()
 {
     ui->btnPair->setChecked(false);
@@ -455,8 +560,17 @@ void MainWindow::clearLeftMode()
 
 void MainWindow::on_btnFullCycle_clicked()
 {
-    if (ui->btnFullCycle->isChecked())
+    if (ui->btnFullCycle->isChecked()) {
+
+        if (isFullCycleTooLong()) {
+            showFullCycleWarning();
+
+            ui->btnFullCycle->setChecked(false);
+            return;
+        }
+
         clearRightMode();
+    }
 }
 
 void MainWindow::on_btnPair_clicked()
@@ -469,22 +583,45 @@ void MainWindow::on_btnPair_clicked()
         ui->btnB->setEnabled(false);
         ui->btnCarry->setEnabled(false);
     }
+
+    lockBottomScheme();
 }
+
+
 void MainWindow::updateNumberLimits()
 {
-    // сколько тетрад выбрано
     int tetrads = ui->comboTetrads->currentText().toInt();
 
-    // считаем максимум
-    int maxValue = pow(10, tetrads) - 1;
+    int maxValue = static_cast<int>(pow(10, tetrads)) - 1;
 
-    // создаём валидатор
-    QIntValidator *validator = new QIntValidator(-maxValue, maxValue, this);
+    ui->btnA->setValidator(
+        new NoLeadingZeroIntValidator(-maxValue, maxValue, ui->btnA)
+    );
 
-    // применяем к полям A и B
-    ui->btnA->setValidator(validator);
-    ui->btnB->setValidator(validator);
+    ui->btnB->setValidator(
+        new NoLeadingZeroIntValidator(-maxValue, maxValue, ui->btnB)
+    );
 }
+
+
+bool MainWindow::isFullCycleTooLong() const
+{
+    int tetrads = ui->comboTetrads->currentText().toInt();
+
+    return ui->btnFullCycle->isChecked() && tetrads > 4;
+}
+
+void MainWindow::showFullCycleWarning()
+{
+    QMessageBox::warning(
+        this,
+        "Предупреждение",
+        "Работа в режиме \"Полный цикл\" при количестве значащих тетрад больше 4 "
+        "будет занимать десятки минут.\n\n"
+        "Выберите режим \"Пара чисел\"."
+    );
+}
+
 void MainWindow::initSquares()
 {
     squares = {
@@ -517,6 +654,74 @@ void MainWindow::setSquareColor(QPushButton *button, const QString &color)
     button->setStyleSheet("background:" + color + "; border:1px solid black;");
 }
 
+//проверка верхних параметров
+bool MainWindow::validateTopControls()
+{
+    bool fullCycle = ui->btnFullCycle->isChecked();
+    bool pairMode = ui->btnPair->isChecked();
+
+    if (!fullCycle && !pairMode) {
+        QMessageBox::warning(
+            this,
+            "Ошибка",
+            "Выберите режим работы:\n"
+            "\"Полный цикл\" или \"Пара чисел\"."
+        );
+        return false;
+    }
+
+    if (pairMode) {
+        if (ui->btnA->text().trimmed().isEmpty() ||
+            ui->btnB->text().trimmed().isEmpty())
+        {
+            QMessageBox::warning(
+                this,
+                "Ошибка",
+                "Введите значения A и B."
+            );
+            return false;
+        }
+
+        if (!ui->btnA->hasAcceptableInput() ||
+            !ui->btnB->hasAcceptableInput())
+        {
+            QMessageBox::warning(
+                this,
+                "Ошибка",
+                "Значения A и B выходят за допустимые пределы."
+            );
+            return false;
+        }
+    }
+
+    QString errorText = ui->comboError->currentText();
+
+    if (errorText != "Нет") {
+        if (!ui->btnFail->isChecked() && !ui->btnReject->isChecked()) {
+            QMessageBox::warning(
+                this,
+                "Ошибка",
+                "Выберите вид ошибки:\n"
+                "\"Сбой\" или \"Отказ\"."
+            );
+            return false;
+        }
+
+        if (ui->btnReject->isChecked()) {
+            if (!ui->btnConst0->isChecked() && !ui->btnConst1->isChecked()) {
+                QMessageBox::warning(
+                    this,
+                    "Ошибка",
+                    "Для отказа выберите константу:\n"
+                    "\"Константа 0\" или \"Константа 1\"."
+                );
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
 
 /*
 =========================================================
@@ -525,7 +730,13 @@ void MainWindow::setSquareColor(QPushButton *button, const QString &color)
 */
 void MainWindow::selectSquare(int index)
 {
+    if (!topApplyAccepted)
+        return;
+
     if (index < 0 || index >= squares.size())
+        return;
+
+    if (!squares[index]->isEnabled())
         return;
 
     if (activeSquare == index) {
@@ -540,14 +751,99 @@ void MainWindow::selectSquare(int index)
     setSquareColor(squares[index], "red");
     activeSquare = index;
 }
+//функция блокировки нижней схемы
+void MainWindow::setSchemeSquaresEnabled(bool enabled)
+{
+    for (auto square : squares) {
+        square->setEnabled(enabled);
+    }
+}
+void MainWindow::resetActiveSquare()
+{
+    if (activeSquare >= 0 && activeSquare < squares.size()) {
+        setSquareColor(squares[activeSquare], "rgb(120,255,120)");
+    }
+
+    activeSquare = -1;
+}
+void MainWindow::lockBottomScheme()
+{
+    topApplyAccepted = false;
+
+    resetActiveSquare();
+
+    setSchemeSquaresEnabled(false);
+
+    ui->ApplyBtn2->setEnabled(false);
+}
+void MainWindow::unlockBottomScheme()
+{
+    topApplyAccepted = true;
+
+    resetActiveSquare();
+
+    /*
+        Если выбрано "Нет", то ошибки нет,
+        значит выбирать квадрат на схеме не нужно.
+    */
+    bool hasError = (ui->comboError->currentText() != "Нет");
+
+    setSchemeSquaresEnabled(hasError);
+
+    ui->ApplyBtn2->setEnabled(true);
+}
 
 void MainWindow::on_comboError_currentIndexChanged(int index)
 {
     Q_UNUSED(index);
+
+    updateErrorControlsState();
     updateScheme(ui->VariantBtn->currentIndex());
+
+    lockBottomScheme();
+}
+//функция сброса кнопок
+void MainWindow::clearErrorButtons()
+{
+    if (errorGroup) {
+        errorGroup->setExclusive(false);
+    }
+
+    ui->btnFail->setChecked(false);
+    ui->btnReject->setChecked(false);
+
+    if (errorGroup) {
+        errorGroup->setExclusive(true);
+    }
+
+    if (constGroup) {
+        constGroup->setExclusive(false);
+    }
+
+    ui->btnConst0->setChecked(false);
+    ui->btnConst1->setChecked(false);
+
+    if (constGroup) {
+        constGroup->setExclusive(true);
+    }
 }
 
+//функция вкл отключения контейнера вид ошибки
+void MainWindow::updateErrorControlsState()
+{
+    QString errorText = ui->comboError->currentText();
 
+    bool hasError = !errorText.isEmpty() && errorText != "Нет";
+
+    ui->VariantError->setEnabled(hasError);
+
+    if (!hasError) {
+        clearErrorButtons();
+        return;
+    }
+
+    updateConstButtonsState();
+}
 /*
 =============================================================
 Формирование массива схемы при нажатии нижней кнопки принять
@@ -555,10 +851,28 @@ void MainWindow::on_comboError_currentIndexChanged(int index)
 */
 void MainWindow::on_ApplyBtn2_clicked()
 {
+    if (!topApplyAccepted) {
+        QMessageBox::warning(
+            this,
+            "Ошибка",
+            "Сначала выберите параметры сверху и нажмите верхнюю кнопку \"Принять\"."
+        );
+        return;
+    }
+
+    if (ui->comboError->currentText() != "Нет" && activeSquare < 0) {
+        QMessageBox::warning(
+            this,
+            "Ошибка",
+            "Выберите элемент на схеме."
+        );
+        return;
+    }
+
     SchemeInput data;
 
     data.variant = ui->VariantBtn->currentIndex() + 1;
-    data.kTetr = ui->comboTetrads->currentText().toInt();   // 1..7
+    data.kTetr = ui->comboTetrads->currentText().toInt();
     data.isSign = (ui->comboError->currentText() == "Знак");
     data.activeSquare = activeSquare;
 
@@ -576,8 +890,64 @@ void MainWindow::on_ApplyBtn2_clicked()
     }
 
     qDebug() << "======================";
+
+    runTeacherCalculation();
 }
-//объвление квадратиков для первого варианта
+void MainWindow::runTeacherCalculation()
+{
+    QVector<int> data = DataCollector::collect(this);
+
+    if (data.size() < 9) {
+        QMessageBox::warning(
+            this,
+            "Ошибка",
+            "DataCollector вернул массив меньше 9 элементов."
+        );
+        return;
+    }
+
+    int Mass1[9];
+
+    for (int i = 0; i < 9; i++) {
+        Mass1[i] = data[i];
+    }
+
+    SchemeInput input;
+
+    input.variant = ui->VariantBtn->currentIndex() + 1;
+    input.kTetr = ui->comboTetrads->currentText().toInt();
+    input.isSign = (ui->comboError->currentText() == "Знак");
+    input.activeSquare = activeSquare;
+
+    SchemeResult schemeResult = MassScheme::build(input);
+
+    int Mass2[6][32];
+
+    for (int row = 0; row < 6; row++) {
+        for (int col = 0; col < 32; col++) {
+            Mass2[row][col] = schemeResult.mass[row][col];
+        }
+    }
+
+    int resultCode = runChetnostVar1(Mass1, Mass2);
+
+    if (resultCode == 0) {
+        QMessageBox::information(
+            this,
+            "Готово",
+            "Расчёт завершён.\n"
+            "Результаты записаны в файл statistica.txt."
+        );
+    } else {
+        QMessageBox::warning(
+            this,
+            "Ошибка",
+            "Расчёт завершился с ошибкой.\n"
+            "Код ошибки: " + QString::number(resultCode)
+        );
+    }
+}
+//объвление квадратиков 
 void MainWindow::on_sq1_clicked()  { selectSquare(0); }
 void MainWindow::on_sq2_clicked()  { selectSquare(1); }
 void MainWindow::on_sq3_clicked()  { selectSquare(2); }

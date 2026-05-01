@@ -25,6 +25,8 @@ public:
 
 
 private slots:
+
+
     void on_ApplyBtn_clicked();
     void on_ApplyBtn2_clicked();
     void on_btnFullCycle_clicked();
@@ -57,16 +59,29 @@ private:
     QVector<QPoint> scheme1Points;
     QVector<QPoint> scheme2Points;
     QVector<QPoint> schemeZnakPoints;
+    void runTeacherCalculation();
     void initSquarePositions();
     void applySquarePositions(const QVector<QPoint> &points);
     void hideUnusedSquares(int usedCount);
     void updateNumberLimits();
 
+    bool isFullCycleTooLong() const;
+    void showFullCycleWarning();
+
     QVector<QPushButton*> squares;
     int activeSquare = -1;
 
-    QButtonGroup *errorGroup;
-    QButtonGroup *constGroup;
+    QButtonGroup *errorGroup = nullptr;
+    QButtonGroup *constGroup = nullptr;
+
+
+    bool topApplyAccepted = false;
+    //функции для блокировки схемы пока не нажмешь кнопку принять
+    void lockBottomScheme();
+    void unlockBottomScheme();
+    void setSchemeSquaresEnabled(bool enabled);
+    void resetActiveSquare();
+    bool validateTopControls();
 
     void initSquares();
     void setSquareColor(QPushButton *button, const QString &color);
@@ -78,6 +93,8 @@ private:
 
     void updateErrorCombo();
 
+    void updateErrorControlsState();
+    void clearErrorButtons();
     void applyButtonStyles();
     void updateConstButtonsState();
     void updateScheme(int index);

@@ -340,6 +340,12 @@
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
 			null
+		],
+		[
+			"C:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/teacher/ChetnostVar1.h",
+			"MU",
+			"NE5ALGSG5O/moc_ChetnostVar1.cpp",
+			null
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
@@ -436,6 +442,11 @@
 		],
 		[
 			"C:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/mainwindow.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/teacher/ChetnostVar1.cpp",
 			"MU",
 			null
 		]

@@ -147,6 +147,11 @@
       <height>51</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>Принять</string>
     </property>
@@ -238,6 +243,11 @@
       <height>51</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true"/>
     </property>
@@ -245,7 +255,7 @@
      <string>Принять</string>
     </property>
    </widget>
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QGroupBox" name="VariantError">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -256,6 +266,7 @@
     </property>
     <property name="font">
      <font>
+      <weight>50</weight>
       <bold>false</bold>
       <underline>false</underline>
      </font>
@@ -281,6 +292,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>50</weight>
        <bold>false</bold>
        <underline>false</underline>
       </font>
@@ -316,6 +328,7 @@
       <property name="font">
        <font>
         <pointsize>14</pointsize>
+        <weight>50</weight>
         <bold>false</bold>
         <underline>false</underline>
        </font>
@@ -368,6 +381,7 @@
       <property name="font">
        <font>
         <pointsize>14</pointsize>
+        <weight>50</weight>
         <bold>false</bold>
         <underline>false</underline>
        </font>
@@ -388,6 +402,7 @@
       <property name="font">
        <font>
         <pointsize>14</pointsize>
+        <weight>50</weight>
         <bold>false</bold>
         <underline>false</underline>
        </font>
@@ -408,6 +423,7 @@
       <property name="font">
        <font>
         <pointsize>14</pointsize>
+        <weight>50</weight>
         <bold>false</bold>
         <underline>false</underline>
        </font>
@@ -734,14 +750,15 @@
     <property name="font">
      <font>
       <pointsize>8</pointsize>
+      <weight>50</weight>
       <bold>false</bold>
      </font>
     </property>
     <property name="frameShadow">
-     <enum>QFrame::Shadow::Plain</enum>
+     <enum>QFrame::Plain</enum>
     </property>
     <property name="orientation">
-     <enum>Qt::Orientation::Horizontal</enum>
+     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -757,6 +774,7 @@
      <font>
       <family>MS Shell Dlg 2</family>
       <pointsize>14</pointsize>
+      <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
      </font>
@@ -795,7 +813,7 @@
      <bool>false</bool>
     </property>
     <property name="alignment">
-     <set>Qt::AlignmentFlag::AlignCenter</set>
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QPushButton" name="sq15">
@@ -1086,7 +1104,7 @@
      <string/>
     </property>
    </widget>
-   <zorder>groupBox</zorder>
+   <zorder>VariantError</zorder>
    <zorder>VariantBtn</zorder>
    <zorder>comboTetrads</zorder>
    <zorder>label_2</zorder>

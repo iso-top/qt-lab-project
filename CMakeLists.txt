@@ -17,6 +17,14 @@ qt_add_executable(Lab_check
     DataCollector.cpp
     DataCollector.h
     MassScheme.h MassScheme.cpp
+    teacher/ChetnostVar1.h
+    teacher/ChetnostVar1.cpp
+)
+
+add_custom_command(TARGET Lab_check POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/help.txt"
+        "$<TARGET_FILE_DIR:Lab_check>/help.txt"
 )
 qt_add_translations(
     TARGETS Lab_check
@@ -37,6 +45,10 @@ install(TARGETS Lab_check
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
+install(FILES
+    "${CMAKE_CURRENT_SOURCE_DIR}/help.txt"
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
 qt_generate_deploy_app_script(
     TARGET Lab_check
     OUTPUT_SCRIPT deploy_script

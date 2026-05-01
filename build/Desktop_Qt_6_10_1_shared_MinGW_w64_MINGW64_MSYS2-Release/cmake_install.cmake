@@ -48,6 +48,10 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE FILE FILES "C:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/help.txt")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   include("C:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/build/Desktop_Qt_6_10_1_shared_MinGW_w64_MINGW64_MSYS2-Release/.qt/deploy_Lab_check_713b899921.cmake")
 endif()
 

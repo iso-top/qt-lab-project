@@ -109,6 +109,16 @@ build CMakeFiles/Lab_check.dir/MassScheme.cpp.obj: CXX_COMPILER__Lab_check_unsca
   OBJECT_FILE_DIR = CMakeFiles\Lab_check.dir
   TARGET_SUPPORT_DIR = CMakeFiles\Lab_check.dir
 
+build CMakeFiles/Lab_check.dir/teacher/ChetnostVar1.cpp.obj: CXX_COMPILER__Lab_check_unscanned_Release C$:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/teacher/ChetnostVar1.cpp || cmake_object_order_depends_target_Lab_check
+  CONFIG = Release
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64
+  DEP_FILE = CMakeFiles\Lab_check.dir\teacher\ChetnostVar1.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/build/Desktop_Qt_6_10_1_shared_MinGW_w64_MINGW64_MSYS2-Release/Lab_check_autogen/include -isystem C:/msys64/mingw64/include/qt6/QtCore -isystem C:/msys64/mingw64/include/qt6 -isystem C:/msys64/mingw64/share/qt6/mkspecs/win32-g++ -isystem C:/msys64/mingw64/include/qt6/QtWidgets -isystem C:/msys64/mingw64/include/qt6/QtGui
+  OBJECT_DIR = CMakeFiles\Lab_check.dir
+  OBJECT_FILE_DIR = CMakeFiles\Lab_check.dir\teacher
+  TARGET_SUPPORT_DIR = CMakeFiles\Lab_check.dir
+
 build CMakeFiles/Lab_check.dir/5525c759e0e1ceac458d415dadf36d28/.qt/rcc/qrc_Lab_check_translations.cpp.obj: CXX_COMPILER__Lab_check_unscanned_Release C$:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/build/Desktop_Qt_6_10_1_shared_MinGW_w64_MINGW64_MSYS2-Release/.qt/rcc/qrc_Lab_check_translations.cpp || cmake_object_order_depends_target_Lab_check
   CONFIG = Release
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -DWINVER=0x0A00 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN32_WINNT=0x0A00 -D_WIN64
@@ -127,13 +137,13 @@ build CMakeFiles/Lab_check.dir/5525c759e0e1ceac458d415dadf36d28/.qt/rcc/qrc_Lab_
 #############################################
 # Link the executable Lab_check.exe
 
-build Lab_check.exe: CXX_EXECUTABLE_LINKER__Lab_check_Release CMakeFiles/Lab_check.dir/Lab_check_autogen/mocs_compilation.cpp.obj CMakeFiles/Lab_check.dir/main.cpp.obj CMakeFiles/Lab_check.dir/mainwindow.cpp.obj CMakeFiles/Lab_check.dir/qrc_image_res.cpp.obj CMakeFiles/Lab_check.dir/DataCollector.cpp.obj CMakeFiles/Lab_check.dir/MassScheme.cpp.obj CMakeFiles/Lab_check.dir/5525c759e0e1ceac458d415dadf36d28/.qt/rcc/qrc_Lab_check_translations.cpp.obj | C$:/msys64/mingw64/lib/libQt6Widgets.dll.a C$:/msys64/mingw64/lib/libQt6Gui.dll.a C$:/msys64/mingw64/lib/libQt6Core.dll.a C$:/msys64/mingw64/lib/libQt6EntryPoint.a || Lab_check_autogen Lab_check_autogen_timestamp_deps
+build Lab_check.exe: CXX_EXECUTABLE_LINKER__Lab_check_Release CMakeFiles/Lab_check.dir/Lab_check_autogen/mocs_compilation.cpp.obj CMakeFiles/Lab_check.dir/main.cpp.obj CMakeFiles/Lab_check.dir/mainwindow.cpp.obj CMakeFiles/Lab_check.dir/qrc_image_res.cpp.obj CMakeFiles/Lab_check.dir/DataCollector.cpp.obj CMakeFiles/Lab_check.dir/MassScheme.cpp.obj CMakeFiles/Lab_check.dir/teacher/ChetnostVar1.cpp.obj CMakeFiles/Lab_check.dir/5525c759e0e1ceac458d415dadf36d28/.qt/rcc/qrc_Lab_check_translations.cpp.obj | C$:/msys64/mingw64/lib/libQt6Widgets.dll.a C$:/msys64/mingw64/lib/libQt6Gui.dll.a C$:/msys64/mingw64/lib/libQt6Core.dll.a C$:/msys64/mingw64/lib/libQt6EntryPoint.a || Lab_check_autogen Lab_check_autogen_timestamp_deps
   CONFIG = Release
   FLAGS = -O3 -DNDEBUG
   LINK_FLAGS = -mwindows
   LINK_LIBRARIES = C:/msys64/mingw64/lib/libQt6Widgets.dll.a  C:/msys64/mingw64/lib/libQt6Gui.dll.a  C:/msys64/mingw64/lib/libQt6Core.dll.a  -lmpr  -luserenv  -lmingw32  C:/msys64/mingw64/lib/libQt6EntryPoint.a  -lshell32  -ld3d11  -ldxgi  -ldxguid  -ld3d12  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Lab_check.dir
-  POST_BUILD = cd .
+  POST_BUILD = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\Admin\Desktop\ALL\Programming\Project\Qt\qt-lab-project\Lab_check\build\Desktop_Qt_6_10_1_shared_MinGW_w64_MINGW64_MSYS2-Release && C:\msys64\mingw64\bin\cmake.exe -E copy_if_different C:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/help.txt C:/Users/Admin/Desktop/ALL/Programming/Project/Qt/qt-lab-project/Lab_check/build/Desktop_Qt_6_10_1_shared_MinGW_w64_MINGW64_MSYS2-Release/help.txt"
   PRE_LINK = cd .
   TARGET_FILE = Lab_check.exe
   TARGET_IMPLIB = libLab_check.dll.a

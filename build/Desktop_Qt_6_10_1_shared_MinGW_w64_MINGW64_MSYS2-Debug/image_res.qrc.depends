@@ -4,4 +4,7 @@
         <file alias="Scheme_2.png">images/Scheme_2.png</file>
         <file alias="Scheme_Znak.png">images/Scheme_Znak.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file alias="Help.txt">Help.txt</file>
+    </qresource>
 </RCC>
